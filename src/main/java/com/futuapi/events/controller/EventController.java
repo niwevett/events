@@ -6,6 +6,7 @@ import com.futuapi.events.repository.EventRepository;
 import com.futuapi.events.repository.OptionRepository;
 import com.futuapi.events.utils.ResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
@@ -23,8 +24,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class EventController {
 
     @Autowired
+    @Qualifier("eventRepository")
     private EventRepository eventRepository;
     @Autowired
+    @Qualifier("optionRepository")
     private OptionRepository optionRepository;
     //get Events list
     @GetMapping("events/list")
@@ -76,6 +79,6 @@ public class EventController {
     }
 
     private void updateEventWithSelfRef(Event event) throws RestClientException {
-        event.add(linkTo(methodOn(EventController.class).getAllEvents()).slash(event.getId()).withSelfRel());
+        event.add(linkTo(methodOn(EventController.class).getEventById(event.getId())).withSelfRel());
     }
 }

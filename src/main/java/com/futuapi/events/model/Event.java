@@ -22,7 +22,7 @@ public class Event extends RepresentationModel{
     @Column(name = "dates")
     private String dates;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="event_id")
     @JsonManagedReference
     private Set<Option> options;
