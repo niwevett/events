@@ -11,7 +11,8 @@ This is a simple JAVA voting application build with Spring Boot
 
 ### Installing
 
-Create a new database for this project in CMD or PgAdmin4 and add the credentials and path to application properties
+1. Create a new database for this project in CMD or PgAdmin4 and add the credentials and path to application properties.
+2. Install Postman and import Postman collection
 
 ## Build with
 
