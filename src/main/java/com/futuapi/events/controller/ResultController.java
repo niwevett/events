@@ -6,7 +6,6 @@ import com.futuapi.events.model.Vote;
 import com.futuapi.events.repository.EventRepository;
 import com.futuapi.events.repository.OptionRepository;
 import com.futuapi.events.repository.VoteRepository;
-import com.futuapi.events.utils.ResponseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.*;
-import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RestController
@@ -36,7 +33,7 @@ public class ResultController {
 
     //returns value that suits for all participants if any exists
     @GetMapping(value="/events/{id}/results")
-    public Map<String, Object> getResult(@PathVariable(value = "id") Long eventId) throws ResponseStatusException {
+    public Map<String, List> getResult(@PathVariable(value = "id") Long eventId) throws ResponseStatusException {
         Event event = eventRepository.findById(eventId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Event not found with id:" + eventId));
         List<String> suitableOptions = new ArrayList<String>();
         Iterable<Option> options = optionRepository.findByEvent(eventId);
@@ -59,15 +56,15 @@ public class ResultController {
                     voters.add(vote.getEmail());
                 }
             }
-            logger.info(voters.toString());
+            //logger.info(voters.toString());
             if(allVoters.containsAll(voters) && voters.containsAll(allVoters)){
                 suitableOptions.add(option.getValue());
             }
         }
-        logger.info(allVoters.toString());
-        if (suitableOptions.isEmpty()){
-            return ResponseModel.emptyResponse("None of the options were suitable for all voters");
-        }
-        return ResponseModel.successResponse(suitableOptions);
+        //logger.info(allVoters.toString());
+        Map<String, List> map = new HashMap<String, List>();
+            map.put("Result: ", suitableOptions);
+
+        return map;
     }
 }

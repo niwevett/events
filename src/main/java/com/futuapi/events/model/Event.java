@@ -1,7 +1,6 @@
 package com.futuapi.events.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.RepresentationModel;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -9,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "events")
-public class Event extends RepresentationModel{
+public class Event extends RepresentationModel<Event>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +27,6 @@ public class Event extends RepresentationModel{
     private Set<Option> options;
 
     public Event() {
-    }
-
-    public Event(Link initialLink) {
-        super(initialLink);
     }
 
     public Set<Option> getOptions() {
